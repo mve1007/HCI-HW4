@@ -1,52 +1,154 @@
 body {
   font-family: sans-serif;
   margin: 0;
+  background-color: #f4f6f9;
+  color: #1e293b;
 }
 
 #layout {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 61px);
 }
 
 #sidebar {
   width: 260px;
+  background-color: #ffffff;
   border-right: 1px solid #ccc;
   padding: 12px;
   box-sizing: border-box;
   overflow-y: auto;
 }
 
+/* make sidebar header smaller than the main page title for visual hierarchy */
+#sidebar h1 {
+  font-size: 18px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  color: #334155;
+}
+
 #main {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
+  max-width: 720px;
 }
 
 #page-title {
-    padding-left: 15px;
+  margin: 0;
+  padding: 15px;
+  font-size: 24px;
+  background-color: #1e293b;
+  color: #ffffff;
 }
 
 .preview {
   padding: 8px;
-  color: #999;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  border-left: 4px solid transparent;
+  color: #64748b;
   cursor: pointer;
   white-space: nowrap;  /* Remove text wrap to only show a preview of each question, not the entire text. */
   overflow: hidden;            
   text-overflow: ellipsis; /* Replace overflow text with an ellipsis (...) */
 }
 
+/* hover signifier for sidebar items */
+.preview:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+/* highlight the currently selected question in the sidebar */
+.preview.active {
+  background-color: #dbeafe;
+  color: #1e3a8a;
+  font-weight: bold;
+  border-left: 4px solid #2563eb;
+}
+
+/* Gestalt Common Region + Figure-Ground: group card contents inside a bordered box */
 .card {
-  margin-bottom: 12px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .question {
   cursor: pointer;
   font-size: 18px;
+  font-weight: bold;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #2563eb;
+  border-radius: 6px;
+  padding: 14px;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+/* signifier so the user knows clicking the question toggles the answer */
+.question::after {
+  content: " (Click to show/hide answer)";
+  font-size: 13px;
+  font-weight: normal;
+  color: #2563eb;
+}
+
+.question:hover {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
 }
 
 .answer {
-  color: #8bc98b;
+  color: #14532d;
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  border-left: 4px solid #16a34a;
+  border-radius: 6px;
+  padding: 14px;
   font-weight: bold;
+  margin-top: 8px;
+}
+
+/* group prev/next buttons and progress text together below the card */
+#nav-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 24px;
+}
+
+#counter {
+  font-weight: bold;
+  color: #334155;
+}
+
+#add-form {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+#add-form h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .hidden {
@@ -66,15 +168,37 @@ button {
   margin-right: 6px;
   cursor: pointer;
   outline: none;
+  background-color: #f1f5f9;
+  border: 1px solid #94a3b8;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #cbd5e1;
+}
+
+button:focus-visible {
+  outline: 2px solid #2563eb;
 }
 
 input {
   display: block;
   font-size: 16px;
   padding: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   width: 100%;
   box-sizing: border-box;
+  border: 1px solid #94a3b8;
+  border-radius: 4px;
+}
+
+input:hover {
+  border-color: #475569;
+}
+
+input:focus {
+  outline: 2px solid #2563eb;
+  border-color: #2563eb;
 }
 
 textarea {

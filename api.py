@@ -18,16 +18,29 @@ questions = [{
                 "q": "Is Fitts' Law an example of a predictive model or a descriptive model?",
                 "a": "Predictive model"
                 },
-             {
+            {
                 "id": 1,
                 "q": "Does this course focus more on genius design, systems design, or user-centered design?",
                 "a": "User-centered design"
                 },
-             {
+            {
                 "id": 2,
                 "q": "What is the main goal of the ideation phase of iterative design?",
                 "a": "Generating as many possible design solutions as possible"
-                }
+                },
+
+            {
+                "id": 3,
+                "q": "What is the difference between a signifier and affordance?",
+                "a": "A signifier is a visual or perceptual cue that indicates how an object should be used, while an affordance is the actual action that the object allows."
+            },
+
+            {
+                "id": 4,
+                "q": "Which Gestalt principle states that elements enclosed within the same bounded area are perceived as belonging to the same group?",
+                "a": "The principle of common region"
+            }
+
             ]
 
 class QuestionRequest(BaseModel):
@@ -40,8 +53,11 @@ def get_questions():
 
 @app.post("/add")
 def add_question(req: QuestionRequest):
+
+    # Create a new unique ID for the new question being created
+    new_id = max([q["id"] for q in questions], default=-1) + 1
     questions.append({
-        "id": len(questions),
+        "id": new_id,
         "q": req.question,
         "a": req.answer
     })
