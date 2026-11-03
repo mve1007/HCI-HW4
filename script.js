@@ -41,8 +41,11 @@ async function apiGet(path) {
     if (!response.ok) {
       throw new Error("Server returned " + response.status);
     }
+
     return await response.json();
-  } catch (error) {
+  } 
+  
+  catch (error) {
     showError("Could not reach API: " + error.message);
     return [];
   }
@@ -58,8 +61,11 @@ async function apiSend(method, path, data) {
     if (!response.ok) {
       throw new Error("Server returned " + response.status);
     }
+
     return true;
-  } catch (error) {
+  } 
+  
+  catch (error) {
     showError("Could not reach API: " + error.message);
     return false;
   }
@@ -78,8 +84,14 @@ async function renderPage() {
 // Redraw the sidebar and the main card from the data we already have.
 function showPage() {
   // keep currentIndex inside the list (e.g. after a delete)
-  if (currentIndex >= questions.length) currentIndex = questions.length - 1;
-  if (currentIndex < 0) currentIndex = 0;
+  if (currentIndex >= questions.length) {
+    currentIndex = questions.length - 1;
+  }
+  
+  if (currentIndex < 0) {
+    currentIndex = 0;
+  }
+
   renderPreviews();
   showCard();
   updateCounter();
@@ -91,14 +103,17 @@ function renderPreviews() {
   questions.forEach(function (question, index) {
     const preview = document.createElement("div");
     preview.className = "preview";
+    
     if (index === currentIndex) {
       preview.classList.add("active");
     }
+
     preview.textContent = question.q;
     preview.addEventListener("click", function () {
       currentIndex = index;
       showPage();
     });
+
     previewList.append(preview);
   });
 }
@@ -110,6 +125,7 @@ function showCard() {
     cardArea.textContent = "No questions to show.";
     return;
   }
+
   const question = questions[currentIndex];
 
   const card = document.createElement("div");
@@ -117,12 +133,14 @@ function showCard() {
 
   const deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
+
   deleteButton.addEventListener("click", function () {
     deleteQuestion(question);
   });
 
   const editButton = document.createElement("button");
   editButton.textContent = "Edit";
+
   editButton.addEventListener("click", function () {
     openEditDialog(question);
   });
@@ -150,20 +168,29 @@ function showCard() {
 // (wrapping around at both ends) and then call showPage(). Then write event listeners to attach these
 // functions to the appropriate Previous/Next buttons. 
 function prevCard() {
-  if (questions.length === 0) return;
+  if (questions.length === 0) {
+    return;
+  }
+
   currentIndex = currentIndex - 1;
+
   if (currentIndex < 0) {
     currentIndex = questions.length - 1;
   }
+
   showPage();
 }
 
 function nextCard() {
-  if (questions.length === 0) return;
+  if (questions.length === 0) {
+    return;
+  }
+
   currentIndex = currentIndex + 1;
   if (currentIndex >= questions.length) {
     currentIndex = 0;
   }
+
   showPage();
 }
 
@@ -174,7 +201,9 @@ nextButton.addEventListener("click", nextCard);
 function updateCounter() {
   if (questions.length === 0) {
     counter.textContent = "Card 0 of 0";
-  } else {
+  } 
+  
+  else {
     counter.textContent = "Card " + (currentIndex + 1) + " of " + questions.length;
   }
 }
@@ -200,10 +229,12 @@ document.querySelector("#close-dialog").addEventListener("click", function () {
 
 document.querySelector("#update-button").addEventListener("click", async function () {
   editDialog.close();
+
   await apiSend("PUT", "/update/" + editingId, {
     question: editQuestion.value,
     answer: editAnswer.value
   });
+
   renderPage();
 });
 
@@ -219,6 +250,7 @@ document.querySelector("#add-button").addEventListener("click", async function (
     question: newQuestion.value.trim(),
     answer: newAnswer.value.trim()
   });
+  
   newQuestion.value = "";
   newAnswer.value = "";
   currentIndex = questions.length;
